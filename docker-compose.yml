@@ -21,6 +21,7 @@ services:
     depends_on:
       - db
     networks:
+      - nginx-proxy-manager
       - www-proxy
     logging:
       driver: "json-file"
@@ -39,6 +40,8 @@ services:
       MARIADB_AUTO_UPGRADE: '1'
     volumes:
       - ./data/mysql:/var/lib/mysql
+    networks:
+      - nginx-proxy-manager
     logging:
       driver: "json-file"
       options:
@@ -46,5 +49,6 @@ services:
         max-file: "5"
 
 networks:
+  nginx-proxy-manager:
   www-proxy:
     external: true
