@@ -3,13 +3,15 @@ version: "3"
 services:
 
   app:
-    image: jc21/nginx-proxy-manager:2.12.3
+    image: 'jc21/nginx-proxy-manager:latest'
     restart: unless-stopped
     ports:
       - '80:80'
-      - '3002:81'
       - '443:443'
+      - '3002:81'
     environment:
+      TZ: "Europe/Moscow"
+      # Mysql/Maria connection parameters:
       DB_MYSQL_HOST: "db"
       DB_MYSQL_PORT: 3306
       DB_MYSQL_USER: "npm"
@@ -30,7 +32,7 @@ services:
         max-file: "5"
 
   db:
-    image: 'jc21/mariadb-aria:10.4.15'
+    image: 'jc21/mariadb-aria:latest'
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: 'npm'
@@ -39,7 +41,7 @@ services:
       MYSQL_PASSWORD: 'npm'
       MARIADB_AUTO_UPGRADE: '1'
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - ./mysql:/var/lib/mysql
     networks:
       - nginx-proxy-manager
     logging:
